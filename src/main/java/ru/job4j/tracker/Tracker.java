@@ -60,4 +60,21 @@ public class Tracker {
         }
         return rsl;
     }
+
+    public boolean delete(int id) {
+        int index = indexOf(id);
+        int start = index + 1;
+        int distPos = index;
+        int size = this.size - index;
+        if (index != -1) {
+            for (int i = 0; i < size; i++) {
+                items[distPos] = items[start];
+                distPos++;
+                start++;
+            }
+        }
+        items[size - 1] = null;
+        this.size--;
+        return index != -1 ? true : false;
+    }
 }

@@ -1,6 +1,9 @@
 package ru.job4j.pojo;
 
-public class Product {private String name;
+import java.util.Objects;
+
+public class Product {
+    private String name;
     private int count;
 
     public Product(String name, int count) {
@@ -22,5 +25,19 @@ public class Product {private String name;
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return count == product.count &&
+                Objects.equals(name, product.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, count);
     }
 }

@@ -68,14 +68,10 @@ public class Tracker {
         int distPos = index;
         int size = this.size - index;
         if (index != -1) {
-            for (int i = 0; i < size; i++) {
-                items[distPos] = items[start];
-                distPos++;
-                start++;
-            }
+            System.arraycopy(items, start, items, distPos, size);
+            items[size - 1] = null;
+            this.size--;
         }
-        items[size - 1] = null;
-        this.size--;
-        return index != -1 ? true : false;
+        return index != -1;
     }
 }

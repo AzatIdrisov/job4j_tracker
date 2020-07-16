@@ -15,9 +15,9 @@ public class StartUI {
             } else if (select == 3) {
                 delete(input, tracker);
             } else if (select == 4) {
-                FindById(input, tracker);
+                findById(input, tracker);
             } else if (select == 5) {
-                FindByName(input, tracker);
+                findByName(input, tracker);
             } else if (select == 6) {
                 run = false;
                 System.out.println("Good Bye!");
@@ -68,7 +68,7 @@ public class StartUI {
         System.out.println(String.format("%s", tracker.delete(id) ? "Ssuccessfully deleted" : "Error! Id not found."));
     }
 
-    public static void FindById(Input input, Tracker tracker) {
+    public static void findById(Input input, Tracker tracker) {
         int id = input.askInt("Enter item Id");
         Item finded = tracker.findById(id);
         if (finded != null) {
@@ -78,7 +78,7 @@ public class StartUI {
         }
     }
 
-    public static void FindByName(Input input, Tracker tracker) {
+    public static void findByName(Input input, Tracker tracker) {
         String name = input.askStr("Enter item name");
         Item[] items = tracker.findByName(name);
         if (items.length != 0) {

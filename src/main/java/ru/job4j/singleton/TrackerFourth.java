@@ -1,13 +1,14 @@
 package ru.job4j.singleton;
 
 import ru.job4j.tracker.Item;
+import ru.job4j.tracker.Tracker;
 
 public class TrackerFourth {
 
     private TrackerFourth() {
     }
 
-    public static TrackerFourth getInstance() {
+    public static Tracker getInstance() {
         return Holder.INSTANCE;
     }
 
@@ -16,10 +17,10 @@ public class TrackerFourth {
     }
 
     private static final class Holder {
-        private static final TrackerFourth INSTANCE = new TrackerFourth();
+        private static final Tracker INSTANCE = new Tracker();
     }
 
     public static void main(String[] args) {
-        TrackerFourth tracker = TrackerFourth.getInstance();
+        Tracker tracker = TrackerFourth.getInstance();
     }
 }

@@ -10,6 +10,7 @@ public class College {
         student.setGroup("ENM-190102");
         student.setAdmissionDate(new Date());
 
-        System.out.println("Student info : "+student.getName()+" "+student.getSurname()+" "+student.getGroup()+ "; Admission Date : "+ student.getAdmissionDate());
+        System.out.println("Student info : " + student.getName() + " " + student.getSurname() + " "
+                + student.getGroup() + "; Admission Date : " + student.getAdmissionDate());
     }
 }

@@ -17,7 +17,8 @@ public class EditAction implements UserAction {
         int id = input.askInt("Enter item Id");
         String newName = input.askStr("Enter new name");
         Item newItem = new Item(newName);
-        out.println(String.format("%s", tracker.replace(id, newItem) ? "Ssuccessfully edit" : "Error! Id not found."));
+        out.println(String.format("%s", tracker.replace(id, newItem)
+                ? "Ssuccessfully edit" : "Error! Id not found."));
         return true;
     }
 }

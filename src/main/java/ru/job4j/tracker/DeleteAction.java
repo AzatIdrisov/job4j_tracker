@@ -15,7 +15,8 @@ public class DeleteAction implements UserAction {
     @Override
     public boolean execute(Input input, Tracker tracker) {
         int id = input.askInt("Enter item Id");
-        out.println(String.format("%s", tracker.delete(id) ? "Ssuccessfully deleted" : "Error! Id not found."));
+        out.println(String.format("%s", tracker.delete(id)
+                ? "Ssuccessfully deleted" : "Error! Id not found."));
         return true;
     }
 }

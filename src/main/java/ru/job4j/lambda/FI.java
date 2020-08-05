@@ -15,7 +15,8 @@ public class FI {
             return left.getName().compareTo(right.getName());
         };
         Comparator<Attachment> compLen = (left, right) -> {
-            System.out.println("compare - " + right.getName().length() + " : " + left.getName().length());
+            System.out.println("compare - " + right.getName().length()
+                    + " : " + left.getName().length());
             return right.getName().length() - left.getName().length();
         };
         Arrays.sort(atts, compLen);

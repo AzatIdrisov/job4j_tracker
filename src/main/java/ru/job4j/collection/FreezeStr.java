@@ -14,7 +14,8 @@ public class FreezeStr {
             lettersRight.put(letter, lettersRight.getOrDefault(letter, 0) + 1);
         }
         for (Character letter : lettersRight.keySet()) {
-            if (!lettersLeft.containsKey(letter) || !(lettersLeft.get(letter).equals(lettersRight.get(letter)))) {
+            if (!lettersLeft.containsKey(letter)
+                    || !(lettersLeft.get(letter).equals(lettersRight.get(letter)))) {
                 result = false;
                 break;
             }

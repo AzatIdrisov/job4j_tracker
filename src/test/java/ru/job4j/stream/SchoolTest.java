@@ -58,4 +58,16 @@ public class SchoolTest {
                 "Azat", new Student("Azat", 90));
         assertThat(result, is(expected));
     }
+
+    @Test
+    public void whenCollectToMapWithDuplicates() {
+        List<Student> students = new ArrayList<>();
+        students.add(new Student("Petr", 80));
+        students.add(new Student("Azat", 90));
+        students.add(new Student("Azat", 80));
+        Map<String, Student> result = School.collectToMap(students);
+        Map<String, Student> expected = Map.of("Petr", new Student("Petr", 80),
+                "Azat", new Student("Azat", 90));
+        assertThat(result, is(expected));
+    }
 }

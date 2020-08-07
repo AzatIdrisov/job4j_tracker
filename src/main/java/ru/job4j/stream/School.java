@@ -15,7 +15,6 @@ public class School {
     public static Map<String, Student> collectToMap(List<Student> students) {
         return students.stream()
                 .collect(Collectors.toMap(student -> student.getSurname(), student -> student,
-                        (firstStud, secondStud) -> firstStud.getScore() > secondStud.getScore()
-                        ? firstStud : secondStud));
+                        (firstStud, secondStud) -> firstStud));
     }
 }

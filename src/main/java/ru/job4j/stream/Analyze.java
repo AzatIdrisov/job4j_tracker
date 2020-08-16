@@ -21,24 +21,12 @@ public class Analyze {
     }
 
     public static List<Tuple> averageScoreByPupil(Stream<Pupil> stream) {
-        Map<String, Integer> subCount = new HashMap<>();
-        Map<String, Integer> subScore = new HashMap<>();
-        List<Subject> subjects = stream.flatMap(pupil -> pupil.getSubjects().stream())
-                .collect(Collectors.toList());
-        Iterator<Subject> iterator = subjects.iterator();
-        while (iterator.hasNext()) {
-            Subject subject = iterator.next();
-            if (subCount.containsKey(subject.getName())) {
-                subCount.put(subject.getName(), subCount.get(subject.getName()) + 1);
-                subScore.put(subject.getName(),
-                        subScore.get(subject.getName()) + subject.getScore());
-            } else {
-                subCount.put(subject.getName(), 1);
-                subScore.put(subject.getName(), subject.getScore());
-            }
-        }
-        return subScore.keySet().stream()
-                .map(subject -> new Tuple(subject, subScore.get(subject) / subCount.get(subject)))
+        Map<String, Double> subjects = stream.flatMap(pupil -> pupil.getSubjects().stream())
+                .collect(Collectors.groupingBy(Subject::getName,
+                        Collectors.averagingDouble(Subject::getScore)));
+        return subjects.entrySet()
+                .stream()
+                .map(subject -> new Tuple(subject.getKey(), subject.getValue()))
                 .collect(Collectors.toList());
     }
 
@@ -50,21 +38,11 @@ public class Analyze {
     }
 
     public static Tuple bestSubject(Stream<Pupil> stream) {
-        Map<String, Integer> subScore = new HashMap<>();
-        List<Subject> subjects = stream.flatMap(pupil -> pupil.getSubjects().stream())
-                .collect(Collectors.toList());
-        Iterator<Subject> iterator = subjects.iterator();
-        while (iterator.hasNext()) {
-            Subject subject = iterator.next();
-            if (subScore.containsKey(subject.getName())) {
-                subScore.put(subject.getName(),
-                        subScore.get(subject.getName()) + subject.getScore());
-            } else {
-                subScore.put(subject.getName(), subject.getScore());
-            }
-        }
-        return subScore.keySet().stream()
-                .map(subject -> new Tuple(subject, subScore.get(subject)))
+        Map<String, Integer> subjects = stream.flatMap(pupil -> pupil.getSubjects().stream())
+                .collect(Collectors.groupingBy(Subject::getName,
+                        Collectors.summingInt(Subject::getScore)));
+        return subjects.entrySet().stream()
+                .map(subject -> new Tuple(subject.getKey(), subject.getValue()))
                 .max((first, second) -> (int) (first.getScore() - second.getScore())).get();
     }
 }

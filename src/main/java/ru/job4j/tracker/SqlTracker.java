@@ -35,10 +35,14 @@ public class SqlTracker implements Store {
     @Override
     public Item add(Item item) {
         String sql = "INSERT INTO items (name) VALUES (?)";
-        try {
-            PreparedStatement preparedStatement = cn.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = cn.prepareStatement(sql,
+                Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, item.getName());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
+            ResultSet generatedKey = preparedStatement.getGeneratedKeys();
+            while (generatedKey.next()){
+                item.setId(generatedKey.getInt(1));
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -47,12 +51,11 @@ public class SqlTracker implements Store {
 
     @Override
     public boolean replace(String id, Item item) {
-        try {
-            String updateName = "update items set name = ? where id = ?";
-            PreparedStatement preparedStatement = cn.prepareStatement(updateName);
+        String updateName = "update items set name = ? where id = ?";
+        try ( PreparedStatement preparedStatement = cn.prepareStatement(updateName)) {
             preparedStatement.setString(1, item.getName());
             preparedStatement.setInt(2, Integer.parseInt(id));
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -63,10 +66,9 @@ public class SqlTracker implements Store {
     @Override
     public boolean delete(String id) {
         String sql = "delete from items where id = ?";
-        try {
-            PreparedStatement preparedStatement = cn.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = cn.prepareStatement(sql)) {
             preparedStatement.setInt(1, Integer.parseInt(id));
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -78,8 +80,7 @@ public class SqlTracker implements Store {
     public List<Item> findAll() {
         List<Item> foundItems = new ArrayList<>();
         String sql = "select * from items ";
-        try {
-            PreparedStatement preparedStatement = cn.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = cn.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Item item = new Item();
@@ -97,8 +98,7 @@ public class SqlTracker implements Store {
     public List<Item> findByName(String key) {
         List<Item> foundItems = new ArrayList<>();
         String sql = "select * from items where name = ?";
-        try {
-            PreparedStatement preparedStatement = cn.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = cn.prepareStatement(sql)) {
             preparedStatement.setString(1, key);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -117,8 +117,7 @@ public class SqlTracker implements Store {
     public Item findById(String id) {
         Item foundItem = new Item();
         String sql = "select * from items where id = ?";
-        try {
-            PreparedStatement preparedStatement = cn.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = cn.prepareStatement(sql)) {
             preparedStatement.setInt(1, Integer.parseInt(id));
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {

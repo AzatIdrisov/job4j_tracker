@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class SqlTracker implements Store {
+public class SqlTracker implements Store, AutoCloseable {
     private Connection cn;
+
+    public SqlTracker(Connection connection) {
+        this.cn = connection;
+    }
 
     public void init() {
         try (InputStream in = SqlTracker.class.getClassLoader()
@@ -40,7 +44,7 @@ public class SqlTracker implements Store {
             preparedStatement.setString(1, item.getName());
             preparedStatement.executeUpdate();
             ResultSet generatedKey = preparedStatement.getGeneratedKeys();
-            while (generatedKey.next()){
+            while (generatedKey.next()) {
                 item.setId(generatedKey.getInt(1));
             }
         } catch (SQLException throwables) {
@@ -52,7 +56,7 @@ public class SqlTracker implements Store {
     @Override
     public boolean replace(String id, Item item) {
         String updateName = "update items set name = ? where id = ?";
-        try ( PreparedStatement preparedStatement = cn.prepareStatement(updateName)) {
+        try (PreparedStatement preparedStatement = cn.prepareStatement(updateName)) {
             preparedStatement.setString(1, item.getName());
             preparedStatement.setInt(2, Integer.parseInt(id));
             preparedStatement.executeUpdate();

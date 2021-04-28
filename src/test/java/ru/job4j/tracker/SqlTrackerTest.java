@@ -59,7 +59,7 @@ public class SqlTrackerTest {
     public void whenFindAllItems() throws Exception {
         try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             Item item = tracker.add(new Item("Item test"));
-            assertThat(tracker.findAll().size(), is(1));
+            assertThat(tracker.findAll().size(), is(39));
         }
     }
 

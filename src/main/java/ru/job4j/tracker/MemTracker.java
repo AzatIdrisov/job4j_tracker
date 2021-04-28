@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MemTracker {
+public class MemTracker implements Store {
     private final List<Item> items = new ArrayList<>();
     private int ids = 1;
+
+    @Override
+    public void init() {
+
+    }
 
     public Item add(Item item) {
         item.setId(ids++);
@@ -14,15 +19,18 @@ public class MemTracker {
         return item;
     }
 
-    public Item findById(int id) {
-        int index = indexOf(id);
+    @Override
+    public Item findById(String id) {
+        int index = indexOf(Integer.parseInt(id));
         return index != -1 ? items.get(index) : null;
     }
 
+    @Override
     public List<Item> findAll() {
         return items;
     }
 
+    @Override
     public ArrayList<Item> findByName(String key) {
         ArrayList<Item> itemsFindByKey = new ArrayList<>();
         for (Item item : items) {
@@ -33,10 +41,11 @@ public class MemTracker {
         return itemsFindByKey;
     }
 
-    public boolean replace(int id, Item item) {
-        int index = indexOf(id);
+    @Override
+    public boolean replace(String id, Item item) {
+        int index = indexOf(Integer.parseInt(id));
         if (index != -1) {
-            item.setId(id);
+            item.setId(Integer.parseInt(id));
             items.set(index, item);
         }
         return index != -1;
@@ -53,11 +62,17 @@ public class MemTracker {
         return rsl;
     }
 
-    public boolean delete(int id) {
-        int index = indexOf(id);
+    @Override
+    public boolean delete(String id) {
+        int index = indexOf(Integer.parseInt(id));
         if (index != -1) {
             items.remove(index);
         }
         return index != -1;
+    }
+
+    @Override
+    public void close() throws Exception {
+
     }
 }

@@ -6,6 +6,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class HibernateRun {
@@ -26,6 +27,15 @@ public class HibernateRun {
             for (Item it : list) {
                 System.out.println(it);
             }
+
+            Item firstItem = create(new Item("Fix printer",
+                    "Need to fix printer",
+                    new Timestamp(1459510232000L)),
+                    sf);
+            Item secondItem = create(new Item("Remove monitor",
+                            "Remove broken monitor",
+                            new Timestamp(1459510232000L)),
+                    sf);
         }  catch (Exception e) {
             e.printStackTrace();
         } finally {
